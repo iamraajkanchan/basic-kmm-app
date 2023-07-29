@@ -26,6 +26,7 @@ kotlin {
     }
 
     sourceSets {
+        val ktorVersion = "2.3.2"
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
@@ -34,6 +35,7 @@ kotlin {
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
                 implementation("media.kamel:kamel-image:0.7.1")
+                implementation("io.ktor:ktor-client-core:$ktorVersion")
             }
         }
         val androidMain by getting {
