@@ -4,6 +4,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.compose")
     kotlin("plugin.serialization") version "1.8.21"
+    id("com.squareup.sqldelight")
 }
 
 kotlin {
@@ -29,6 +30,11 @@ kotlin {
     sourceSets {
         val ktorVersion = "2.3.2"
         val serializationVersion = "1.5.1"
+        val lifecycleVersion = "2.6.1"
+        val coroutinesVersion = "1.7.1"
+        val sqlDelightVersion = "1.5.5"
+        val dateTimeVersion = "0.4.0"
+
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
@@ -36,11 +42,17 @@ kotlin {
                 implementation(compose.material)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
                 implementation("media.kamel:kamel-image:0.7.1")
+                implementation("com.squareup.sqldelight:runtime:$sqlDelightVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:$dateTimeVersion")
+                api("dev.icerock.moko:mvvm-core:0.16.1")
+                api("dev.icerock.moko:mvvm-state:0.16.1")
+                api("dev.icerock.moko:mvvm-compose:0.16.1")
             }
         }
         val androidMain by getting {
@@ -49,6 +61,9 @@ kotlin {
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.9.0")
                 implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+                implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
+                implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion")
+                implementation("com.squareup.sqldelight:android-driver:$sqlDelightVersion")
             }
         }
         val iosX64Main by getting
@@ -61,6 +76,7 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 implementation("io.ktor:ktor-client-darwin:$ktorVersion")
+                implementation("com.squareup.sqldelight:native-driver:$sqlDelightVersion")
             }
         }
     }
@@ -85,4 +101,7 @@ android {
     kotlin {
         jvmToolchain(17)
     }
+}
+dependencies {
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
 }
