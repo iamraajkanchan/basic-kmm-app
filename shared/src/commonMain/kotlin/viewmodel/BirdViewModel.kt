@@ -18,9 +18,9 @@ data class BirdUiState(
 }
 
 class BirdViewModel : ViewModel() {
+    private val repository: AppRepository = AppRepository.getInstance()
     private val _uiState: MutableStateFlow<BirdUiState> = MutableStateFlow(BirdUiState())
     val uiState: StateFlow<BirdUiState> get() = _uiState
-    private val repository: AppRepository = AppRepository.getInstance()
 
     init {
         updateBirds()
@@ -28,7 +28,12 @@ class BirdViewModel : ViewModel() {
 
     private fun updateBirds() {
         viewModelScope.launch {
-            _uiState.update { it.copy(birds = repository.getBirds(), selectCategory = "PIGEON") }
+            _uiState.update {
+                it.copy(
+                    birds = repository.getBirds() ?: emptyList(),
+                    selectCategory = "PIGEON"
+                )
+            }
         }
     }
 

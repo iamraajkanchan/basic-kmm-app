@@ -28,9 +28,8 @@ kotlin {
     }
 
     sourceSets {
-        val ktorVersion = "2.3.2"
+        val ktorVersion = "2.3.1"
         val serializationVersion = "1.5.1"
-        val lifecycleVersion = "2.6.1"
         val coroutinesVersion = "1.7.1"
         val sqlDelightVersion = "1.5.5"
         val dateTimeVersion = "0.4.0"
@@ -61,8 +60,6 @@ kotlin {
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.9.0")
                 implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
-                implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
-                implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion")
                 implementation("com.squareup.sqldelight:android-driver:$sqlDelightVersion")
             }
         }
@@ -101,7 +98,4 @@ android {
     kotlin {
         jvmToolchain(17)
     }
-}
-dependencies {
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
 }

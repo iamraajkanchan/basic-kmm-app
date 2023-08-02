@@ -58,20 +58,26 @@ fun BirdCard(viewModel: BirdViewModel, callback: () -> Unit) {
                 }
             }
         }
-        AnimatedVisibility(visible = uiState.selectedBirds.isNotEmpty()) {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                horizontalArrangement = Arrangement.spacedBy(5.dp),
-                verticalArrangement = Arrangement.spacedBy(5.dp),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(5.dp),
-                content = {
-                    items(uiState.selectedBirds) {
-                        BirdImageCell(it)
+        if (uiState.selectedBirds.isNotEmpty()) {
+            AnimatedVisibility(visible = uiState.selectedBirds.isNotEmpty()) {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    horizontalArrangement = Arrangement.spacedBy(5.dp),
+                    verticalArrangement = Arrangement.spacedBy(5.dp),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(5.dp),
+                    content = {
+                        items(uiState.selectedBirds) {
+                            BirdImageCell(it)
+                        }
                     }
-                }
-            )
+                )
+            }
+        } else {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                NoDataFoundText()
+            }
         }
     }
 }
