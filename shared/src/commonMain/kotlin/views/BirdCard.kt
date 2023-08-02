@@ -28,7 +28,7 @@ import model.BirdResponse
 import viewmodel.BirdViewModel
 
 @Composable
-fun BirdCard(viewModel: BirdViewModel, call: () -> Unit) {
+fun BirdCard(viewModel: BirdViewModel, callback: () -> Unit) {
     val uiState by viewModel.uiState.collectAsState()
     Column(
         modifier = Modifier.fillMaxSize()
@@ -53,7 +53,7 @@ fun BirdCard(viewModel: BirdViewModel, call: () -> Unit) {
                         }
                     }
                 }
-                Button(onClick = { call() }) {
+                Button(onClick = { callback() }) {
                     Text(text = "Todos")
                 }
             }
