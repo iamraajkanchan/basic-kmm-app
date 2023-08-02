@@ -49,6 +49,7 @@ kotlin {
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.9.0")
                 implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+                implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
             }
         }
         val iosX64Main by getting
