@@ -6,10 +6,10 @@ import viewmodel.BirdViewModel
 import views.BirdCard
 
 @Composable
-fun App(callback: () -> Unit) {
+fun App() {
     MaterialTheme {
         val viewModel: BirdViewModel = getViewModel(Unit, viewModelFactory { BirdViewModel() })
-        BirdCard(viewModel) { callback.invoke() }
+        BirdCard(viewModel) { /*callback.invoke()*/ }
     }
 }
 
