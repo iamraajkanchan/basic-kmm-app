@@ -8,7 +8,10 @@ import kotlinx.coroutines.launch
 import model.TodosResponse
 import repository.AppRepository
 
-data class TodosUiState(val todos: List<TodosResponse> = emptyList())
+data class TodosUiState(
+    val todos: List<TodosResponse> = emptyList(),
+    val isLoading: Boolean = false
+)
 
 class TodosViewModel : ViewModel() {
     private val repository: AppRepository = AppRepository.getInstance()
@@ -16,12 +19,18 @@ class TodosViewModel : ViewModel() {
     val uiState: StateFlow<TodosUiState> get() = _uiState
 
     init {
+        _uiState.update { it.copy(isLoading = true) }
         updateTodos()
     }
 
     private fun updateTodos() {
         viewModelScope.launch {
-            _uiState.update { it.copy(todos = repository.getTodos() ?: emptyList()) }
+            _uiState.update {
+                it.copy(
+                    todos = repository.getTodos() ?: emptyList(),
+                    isLoading = false
+                )
+            }
         }
     }
 
