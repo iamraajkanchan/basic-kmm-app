@@ -10,7 +10,8 @@ import repository.AppRepository
 
 data class BirdUiState(
     val birds: List<BirdResponse> = emptyList(),
-    val selectCategory: String? = null
+    val selectCategory: String? = null,
+    val isLoading: Boolean = false
 ) {
     val categories: Set<String?> = birds.map { it.category }.toSet()
     val selectedBirds: List<BirdResponse> =
@@ -23,6 +24,7 @@ class BirdViewModel : ViewModel() {
     val uiState: StateFlow<BirdUiState> get() = _uiState
 
     init {
+        _uiState.update { it.copy(isLoading = true) }
         updateBirds()
     }
 
@@ -31,7 +33,8 @@ class BirdViewModel : ViewModel() {
             _uiState.update {
                 it.copy(
                     birds = repository.getBirds() ?: emptyList(),
-                    selectCategory = "PIGEON"
+                    selectCategory = "PIGEON",
+                    isLoading = false
                 )
             }
         }
