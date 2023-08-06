@@ -18,7 +18,7 @@ class AppRepository private constructor() {
 
     suspend fun getBirds(): List<BirdResponse>? {
         return try {
-            httpClient.get("https://sebastianaigner.github.io/demo-image-api/pictures.json")
+            httpClient.get("http://sebi.io/demo-image-api/pictures.json")
                 .body<List<BirdResponse>>()
         } catch (e: JsonConvertException) {
             e.printStackTrace()
