@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
@@ -37,6 +39,7 @@ fun BirdCard(viewModel: BirdViewModel, callback: () -> Unit) {
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
+            // Start of Buttons
             Row(
                 modifier = Modifier
                     .wrapContentWidth()
@@ -58,34 +61,45 @@ fun BirdCard(viewModel: BirdViewModel, callback: () -> Unit) {
                 }
             }
         }
-        if (uiState.selectedBirds.isNotEmpty()) {
-            AnimatedVisibility(visible = uiState.selectedBirds.isNotEmpty()) {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    horizontalArrangement = Arrangement.spacedBy(5.dp),
-                    verticalArrangement = Arrangement.spacedBy(5.dp),
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(5.dp),
-                    content = {
-                        items(uiState.selectedBirds) {
-                            BirdImageCell(it)
-                        }
-                    }
+        // End of Buttons
+        // Start of Vertical Grid
+        if (uiState.isLoading) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator(
+                    modifier = Modifier.wrapContentWidth().wrapContentHeight()
                 )
             }
         } else {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                NoDataFoundText()
+            if (uiState.selectedBirds.isNotEmpty()) {
+                AnimatedVisibility(visible = uiState.selectedBirds.isNotEmpty()) {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        horizontalArrangement = Arrangement.spacedBy(5.dp),
+                        verticalArrangement = Arrangement.spacedBy(5.dp),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(5.dp),
+                        content = {
+                            items(uiState.selectedBirds) {
+                                BirdImageCell(it)
+                            }
+                        }
+                    )
+                }
+            } else {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    NoDataFoundText()
+                }
             }
         }
+        // End of Vertical Grid
     }
 }
 
 @Composable
 fun BirdImageCell(response: BirdResponse) {
     KamelImage(
-        asyncPainterResource(data = "https://sebastianaigner.github.io/demo-image-api/${response.path}"),
+        asyncPainterResource(data = "https://sebi.io/demo-image-api/${response.path}"),
         contentDescription = "${response.category} by ${response.author}",
         modifier = Modifier
             .fillMaxWidth()
